@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">  
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> 
     <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body>
     <header>
@@ -61,10 +62,10 @@
                                    <i class="fas fa-bars"></i> Master
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="manage-sessions.php">Manage Session</a>
-                                    <a class="dropdown-item" href="manage-course-type.php">Manage Course Type</a>
-                                    <a class="dropdown-item" href="manage-course-level.php">Manage Course Level</a>
-                                    <a class="dropdown-item" href="manage-courses.php">Manage Courses</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/sessions') }}">Manage Session</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/course-type') }}">Manage Course Type</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/course-level') }}">Manage Course Level</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/course') }}">Manage Courses</a>
                                     <a class="dropdown-item" href="manage-university.php">Manage University</a>
                                     <a class="dropdown-item" href="manage-discount-coupon.php">Manage Discount Coupon</a>
 								</div>
@@ -92,6 +93,12 @@
                 </nav>
             </div>
         </div>
+        <!-- Loader content -->
+            <div class="loading" id="loader">Loading&#8230;</div>
+        <!--  End loader Content -->
     </header>
+    <script type="text/javascript">
+        document.getElementById('loader').style.display ="none";
+    </script>
     @yield('content')
     @extends('footer.footer')
