@@ -17,7 +17,7 @@
         <div class="top-bar">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-top">
-                    <a class="navbar-brand" href="index.php"><img src="{{ asset('public') }}/images/logo.png" class="img-fluid"></a>
+                    <a class="navbar-brand" href="{{ url('admin/dashboard') }}"><img src="{{ asset('public') }}/images/logo.png" class="img-fluid"></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -65,9 +65,10 @@
                                     <a class="dropdown-item" href="{{ url('admin/manage/sessions') }}">Manage Session</a>
                                     <a class="dropdown-item" href="{{ url('admin/manage/course-type') }}">Manage Course Type</a>
                                     <a class="dropdown-item" href="{{ url('admin/manage/course-level') }}">Manage Course Level</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/stream') }}">Manage Stream</a>
                                     <a class="dropdown-item" href="{{ url('admin/manage/course') }}">Manage Courses</a>
-                                    <a class="dropdown-item" href="manage-university.php">Manage University</a>
-                                    <a class="dropdown-item" href="manage-discount-coupon.php">Manage Discount Coupon</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/university') }}">Manage University</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/coupons') }}">Manage Discount Coupon</a>
 								</div>
                             </li>
 							<li class="nav-item dropdown">

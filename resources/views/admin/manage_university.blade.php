@@ -6,11 +6,11 @@
       <div class="col-md-12 col-xs-12">
         <div class="content-header">
           <h3 class="content-header-title">Master</h3>
-		  <button class="btn btn-primary btn-save" data-target="#add-course-type" data-toggle="modal"><i class="fas fa-plus"></i> Add Course Type</button>
+		  <button class="btn btn-primary btn-save" data-target="#add-university" data-toggle="modal"><i class="fas fa-plus"></i> Add University</button>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
             <li class="breadcrumb-item">Master</li>
-            <li class="breadcrumb-item active">Manage Course Type</li> 
+            <li class="breadcrumb-item active">Manage University</li>
           </ol>
         </div>
       </div>
@@ -41,18 +41,18 @@
                     <tr>
                       <th>Created At Date &amp; Time</th>
                       <th>Updated At Date &amp; Time</th>
-                      <th>Course Type</th>
-                      <th>Type Remark</th>
+                      <th>University</th>
+                      <th>Courses</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($datas as $data)
+                    @foreach($universities as $university)
                     <tr>
                       <td>
                         @php
-                          $dt = new DateTime($data->created_at);
+                          $dt = new DateTime($university->created_at);
                           $tz = new DateTimeZone('Asia/Kolkata');
                           $dt->setTimezone($tz);
                           $dateTime = $dt->format('d.m.Y h:i A');
@@ -61,42 +61,35 @@
                       </td>
                       <td>
                         @php
-                          $dt = new DateTime($data->updated_at);
+                          $dt = new DateTime($university->created_at);
                           $tz = new DateTimeZone('Asia/Kolkata');
                           $dt->setTimezone($tz);
                           $dateTime = $dt->format('d.m.Y h:i A');
                         @endphp
                         {{ $dateTime }}
                       </td>
-                      <td>{{ $data->course_type }}</td>
                       <td>
-                        @if($data->type_remark)
-                          {{ $data->type_remark }}
-                        @else
-                          N/A
-                        @endif
+                        {{ $university->name }}
                       </td>
                       <td>
-                        @if($data->status == 'Yes')
+                        @foreach($university->getRelatedCourse as $course)
+                          {{ $course->getCourse['course_name'] }},
+                        @endforeach
+                      </td>
+                      <td>
+                        @if($university->status == 'Yes')
                           active
                         @else
                           inactive
                         @endif
                       </td>
                       <td>
-                        <ul class="action">
-                          <li>
-                            <a title="Edit Session" onclick="updateCourseType('{{ $data->id }}', '{{ $data }}')" style="cursor: pointer;">
-                              <i class="fas fa-pencil-alt"></i>
-                            </a>
-                          </li>
-                          <li><a title="Change Status" onclick="changeStatus('{{ $data->id }}')" style="cursor: pointer;"><i class="fas fa-exchange-alt"></i></a></li>
-                          <li>
-                            <a title="Delete Session" onclick="deleteCourseType('{{ $data->id }}')" style="cursor: pointer;"><i class="fas fa-trash"></i>
-                            </a>
-                          </li>
-                        </ul>
-                      </td>
+						              <ul class="action">
+                          	<li><a  title="Edit University" onclick="updateUniversity('{{ $university->id }}','{{ $university }}')" style="cursor: pointer;"><i class="fas fa-pencil-alt"></i></a></li>
+                          	<li><a  title="Change Status" onclick="changeStatus('{{ $university->id }}')"><i class="fas fa-exchange-alt"></i></a></li>
+                          	<li><a onclick="deleteUniversity('{{ $university->id }}')" style="cursor: pointer;"><i class="fas fa-trash"></i></a></li>
+                          </ul>
+					             </td>
                     </tr>
                     @endforeach
                   </tbody>
@@ -110,53 +103,59 @@
   </div>
 </section>
 
-<div class="modal" id="add-course-type">
-  <div class="modal-dialog modal-sm">
+<div class="modal" id="add-university">
+  <div class="modal-dialog">
     <div class="modal-content"> 
       
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Add Course Type</h4>
+        <h4 class="modal-title">Add University</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       
       <!-- Modal body -->
       <div class="modal-body">
-        <form method="post" action="{{ url('admin/create/course-type') }}">
+        <form method="post" action="{{ url('admin/create/university') }}">
           @csrf
           <div class="form-group row">
             <div class="col-sm-12">
-              <label class="label-control">Course Type</label>
-              <input type="text" name="course_type" id="course_type" class="text-control" placeholder="Enter Course Type" required="">
-              @if($errors->has('course_type'))
-                  <span style="color: red;">{{ $errors->first('course_type') }}</span>
+              <label class="label-control">University Name</label>
+              <input type="text" class="text-control" name="university_name" id="university_name" placeholder="Enter University Name" value="{{ old('university_name') }}">
+              @if($errors->has('university_name'))
+                  <span style="color: red;">{{ $errors->first('university_name') }}</span>
                   <script type="text/javascript">
                       setTimeout(function() {
-                        $('#add-course-type').modal('show');
+                        $('#add-university').modal('show');
                       }, 1000);
                   </script>
               @endif
             </div>
           </div>
 			
-		  <div class="form-group row">   
-			<div class="col-sm-12">
-              <label class="label-control">Type Remark</label>
-              <input type="text" name="type_remark" id="type_remark" class="text-control" placeholder="Enter Type Remark">
-              @if($errors->has('type_remark'))
-                  <span style="color: red;">{{ $errors->first('type_remark') }}</span>
-                  <script type="text/javascript">
-                      setTimeout(function() {
-                        $('#add-course-type').modal('show');
-                      }, 1000);
-                  </script>
-              @endif
-            </div>
+		  <div class="form-group row">
+            <div class="col-sm-12">
+              <label class="label-control">Courses</label>
+              <div class="d-block">
+				<ul class="ul-inline-block">
+          @foreach($datas as $data)
+				    <li><label><input type="checkbox" name="course[]" value="{{ $data->id }}">  {{ $data->course_name }}</label></li> 
+          @endforeach  
+				</ul>
+        @if($errors->has('course'))
+            <span style="color: red;">{{ $errors->first('course') }}</span>
+            <script type="text/javascript">
+                setTimeout(function() {
+                  $('#add-university').modal('show');
+                }, 1000);
+            </script>
+        @endif
+			  </div>
+            </div> 
           </div>
 	
           <div class="form-action row">
             <div class="col-sm-12 text-center">
-              <button class="btn btn-primary btn-save" type="submit">Add Course Type</button>
+              <button class="btn btn-primary btn-save" type="submit">Add University</button>
             </div>
           </div>
         </form>
@@ -165,54 +164,60 @@
   </div>
 </div>
 
-<div class="modal" id="edit-course-type">
-  <div class="modal-dialog modal-sm">
+<div class="modal hide" id="edit-university"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
     <div class="modal-content"> 
       
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Update Course Type</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update University</h4>
+        <button type="button" class="close" onclick="closeModel()">&times;</button>
       </div>
       
       <!-- Modal body -->
       <div class="modal-body">
-        <form method="post" action="{{ url('admin/update/course-type') }}">
+        <form method="post" action="{{ url('admin/update/university') }}">
           @csrf
           <div class="form-group row">
             <div class="col-sm-12">
-              <input type="hidden" name="course_type_id" id="course_type_id">
-              <label class="label-control">Course Type</label>
-              <input type="text" name="course_type_new" id="course_type_new" class="text-control" placeholder="Enter Course Type" required="">
-              @if($errors->has('course_type_new'))
-                  <span style="color: red;">{{ $errors->first('course_type_new') }}</span>
+              <input type="hidden" name="id" id="id">
+              <label class="label-control">University Name</label>
+              <input type="text" name="up_university_name" id="up_university_name" class="text-control" placeholder="Enter University Name">
+              @if($errors->has('up_university_name'))
+                  <span style="color: red;">{{ $errors->first('up_university_name') }}</span>
                   <script type="text/javascript">
                       setTimeout(function() {
-                        $('#edit-course-type').modal('show');
+                        $('#edit-university').modal('show');
                       }, 1000);
                   </script>
               @endif
             </div>
           </div>
 			
-		  <div class="form-group row">  
-			<div class="col-sm-12">
-              <label class="label-control">Type Remark</label>
-              <input type="text" name="type_remark_new" id="type_remark_new" class="text-control" placeholder="Enter Type Remark">
-              @if($errors->has('type_remark_new'))
-                  <span style="color: red;">{{ $errors->first('type_remark_new') }}</span>
-                  <script type="text/javascript">
-                      setTimeout(function() {
-                        $('#edit-course-type').modal('show');
-                      }, 1000);
-                  </script>
-              @endif
+		  <div class="form-group row">
+            <div class="col-sm-12">
+              <label class="label-control">Courses</label>
+              <div class="d-block">
+				<ul class="ul-inline-block">
+				  @foreach($datas as $data)
+            <li><label><input type="checkbox" id="up_course{{ $data->id }}" name="up_course[]" value="{{ $data->id }}">  {{ $data->course_name }}</label></li> 
+          @endforeach   
+				</ul>
+        @if($errors->has('up_course'))
+            <span style="color: red;">{{ $errors->first('up_course') }}</span>
+            <script type="text/javascript">
+                setTimeout(function() {
+                  $('#edit-university').modal('show');
+                }, 1000);
+            </script>
+        @endif
+			  </div>
             </div>
           </div>
 	
           <div class="form-action row">
             <div class="col-sm-12 text-center">
-              <button class="btn btn-primary btn-save" type="submit">Update Course Type</button>
+              <button class="btn btn-primary btn-save" type="submit">Update University</button>
             </div>
           </div>
         </form>
@@ -221,16 +226,26 @@
   </div>
 </div>
 <script type="text/javascript">
-  function updateCourseType(id, datas) {
-      document.getElementById('course_type_id').value = id;
-      $('#edit-course-type').modal('show');
+
+  function updateUniversity(id, datas) {
+      var obj = JSON.parse(datas);
+      document.getElementById('id').value = obj.id;
+      document.getElementById('up_university_name').value = obj.name;
+      for (var i = 0; i < obj.get_related_course.length; i++) {
+        var data = obj.get_related_course[i];
+        document.getElementById("up_course"+data.course_id).checked = true;
+      }
+      $('#edit-university').modal('show');
   }
 
+  function closeModel() {
+    location.reload();
+  }
 
-    function changeStatus(id) {
+   function changeStatus(id) {
       swal({
           title: "Are you sure?",
-          text: "Change Status Of This course Type",
+          text: "Change Status of university.",
           icon: "warning",
           buttons: true,
           dangerMode: true,
@@ -240,7 +255,7 @@
           if (willDelete) {
               $.ajax({
                   method:'post',
-                  url   : "{{ url('admin/change-status/course-type') }}",
+                  url   : "{{ url('admin/change-status/university') }}",
                   data  : {
                       "_token": "{{ csrf_token() }}",
                       'id'    : id
@@ -248,9 +263,9 @@
                   success: function(data){
                       document.getElementById('loader').style.display ="none";
                       if(data == 'Yes') {
-                          swal("", 'Course Type Activated Successfully.', "success");
+                          swal("", 'University Activated Successfully.', "success");
                       } else {
-                          swal("", 'Course Type Deactivated Successfully.', "warning");
+                          swal("", 'University Deactivated Successfully.', "warning");
                       }
                       setTimeout( function () {
                         location.reload();
@@ -264,10 +279,10 @@
       });
     }
 
-    function deleteCourseType(id) {
+    function deleteUniversity(id) {
       swal({
           title: "Are you sure?",
-          text: "Delete this course type",
+          text: "Delete this university.",
           icon: "warning",
           buttons: true,
           dangerMode: true,
@@ -277,7 +292,7 @@
           if (willDelete) {
               $.ajax({
                   method:'post',
-                  url   : "{{ url('admin/delete/course-type') }}",
+                  url   : "{{ url('admin/delete/university') }}",
                   data  : {
                       "_token": "{{ csrf_token() }}",
                       'id'    : id
@@ -296,5 +311,6 @@
           }
       });
     }
+
 </script>
 @endsection

@@ -47,6 +47,7 @@
                       <th>Duration</th>
                       <th>Type</th>
                       <th>Level</th>
+                      <th>Stream</th>
                       <th>Admission Fee</th>
 					  <th>Status</th>
                       <th>Action</th>
@@ -79,13 +80,20 @@
                         <td>{{ $course->getCourseDuration['name'] }}</td>
                         <td>{{ $course->getCourseType['course_type'] }}</td>
                         <td>{{ $course->getCourseLevel['course_level'] }}</td>
+                        <td>{{ $course->getStream['stream'] }}</td>
                         <td><i class="fas fa-rupee-sign"></i> {{ $course->admission_fees }}  <a onclick="viewMoredata('{{ $course }}')" style="cursor: pointer;">View</a></td>
-                        <td>active</td>
+                        <td>
+                            @if($course->status == 'Yes')
+                              active
+                            @else
+                              inactive
+                        @endif
+                        </td>  
                         <td>
                         <ul class="action">
                           <li><a  title="Edit Course" onclick="editCourse('{{ $course }}')" style="cursor: pointer;"><i class="fas fa-pencil-alt"></i></a></li>
-                          <li><a href="#" title="Change Status"><i class="fas fa-exchange-alt"></i></a></li>
-                          <li><a href="#"><i class="fas fa-trash"></i></a></li>
+                          <li><a title="Change Status" onclick="changeStatus('{{ $course->id }}')" style="cursor: pointer;"><i class="fas fa-exchange-alt"></i></a></li>
+                          <li><a onclick="deleteCourse('{{ $course->id }}')" style="cursor: pointer;"><i class="fas fa-trash"></i></a></li>
                         </ul>
                        </td>
                       </tr>
@@ -283,8 +291,29 @@
                   </script>
               @endif
             </div>
-			  
-			<div class="col-sm-6">
+              <div class="col-sm-12">
+                  <label class="label-control">Stream</label>
+                      <select class="text-control" name="stream" id="stream">
+                  <option value="">Select Level</option>
+                  @foreach($data['streams']  as $stream)
+                    @if(old('stream') == $stream->id)
+                      <option value="{{ $stream->id }}" selected="">{{ $stream->stream }}</option>
+                    @else
+                      <option value="{{ $stream->id }}">{{ $stream->stream }}</option>
+                    @endif
+                  @endforeach
+                </select>
+                @if($errors->has('stream'))
+                    <span style="color: red;">{{ $errors->first('stream') }}</span>
+                    <script type="text/javascript">
+                        setTimeout(function() {
+                          $('#add-course').modal('show');
+                        }, 1000);
+                    </script>
+                @endif
+              </div>
+       
+			   <div class="col-sm-6">
               <label class="label-control">Admission Fee</label>
               <input type="number" name="admission_fees" id="admission_fees" class="text-control" placeholder="Enter Admission Fee" value="{{ old('admission_fees') }}">
               @if($errors->has('admission_fees'))
@@ -549,6 +578,23 @@
                   </script>
               @endif
             </div>
+            <div class="col-sm-6">
+              <label class="label-control">Stream</label>
+              <select class="text-control" name="up_stream" id="up_stream">
+                <option value="">Select Stream</option>
+                  @foreach($data['streams']  as $stream)
+                      <option value="{{ $stream->id }}">{{ $stream->stream }}</option>
+                  @endforeach
+              </select>
+              @if($errors->has('up_stream'))
+                  <span style="color: red;">{{ $errors->first('up_stream') }}</span>
+                  <script type="text/javascript">
+                      setTimeout(function() {
+                        $('#edit-course').modal('show');
+                      }, 1000);
+                  </script>
+              @endif
+            </div>
 			  
 			<div class="col-sm-6">
               <label class="label-control">Admission Fee</label>
@@ -747,6 +793,76 @@
        document.getElementById("up_other_fees").value = obj.other_fees;
        document.getElementById("up_other_fees_remark").value = obj.other_fees_remark;
       $('#edit-course').modal('show');
+    }
+
+    function changeStatus(id) {
+      swal({
+          title: "Are you sure?",
+          text: "Change status of this course.",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          document.getElementById('loader').style.display ="block";
+          if (willDelete) {
+              $.ajax({
+                  method:'post',
+                  url   : "{{ url('admin/change-status/course') }}",
+                  data  : {
+                      "_token": "{{ csrf_token() }}",
+                      'id'    : id
+                  },
+                  success: function(data){
+                      document.getElementById('loader').style.display ="none";
+                      if(data == 'Yes') {
+                          swal("", 'Course Activated Successfully.', "success");
+                      } else {
+                          swal("", 'Course Deactivated Successfully.', "warning");
+                      }
+                      setTimeout( function () {
+                        location.reload();
+                      }, 2000);
+
+                  }
+              });
+          }else {
+              document.getElementById('loader').style.display ="none";
+          }
+      });
+    }
+
+    function deleteCourse(id) {
+      swal({
+          title: "Are you sure?",
+          text: "Delete this course",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+      .then((willDelete) => {
+          document.getElementById('loader').style.display ="block";
+          if (willDelete) {
+              $.ajax({
+                  method:'post',
+                  url   : "{{ url('admin/delete/course') }}",
+                  data  : {
+                      "_token": "{{ csrf_token() }}",
+                      'id'    : id
+                  },
+                  success: function(data){
+                      document.getElementById('loader').style.display ="none";
+                      swal("", data, "success");
+                      setTimeout( function () {
+                        location.reload();
+                      }, 2000);
+
+                  }
+              });
+          }else {
+              document.getElementById('loader').style.display ="none";
+          }
+      });
     }
 </script>
 @endsection

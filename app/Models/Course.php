@@ -13,6 +13,7 @@ class Course extends Model
     	'course_duration_id',
     	'course_type_id',
     	'course_level_id',
+        'stream_id',
     	'admission_fees',
     	'course_fees',
     	'exam_fees',
@@ -48,5 +49,11 @@ class Course extends Model
     public function getCourseLevel()
     {
         return $this->belongsTo(CourseLevel::class, 'course_level_id', 'id');
+    }
+
+    // Get Stream Data
+    public function getStream()
+    {
+        return $this->belongsTo(Stream::class, 'stream_id', 'id');
     }
 }

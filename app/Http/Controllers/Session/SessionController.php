@@ -74,7 +74,7 @@ class SessionController extends Controller
 	*
 	* @category Session  Management
 	* @package  Session  Management
-	* @author   Sachiln Kumar Rajvanshi <sachin.rajvanshi@webmingo.in>
+	* @author   Sachiln Kumar Rajvanshi <sachin.rajvanshi@webmingo.in> 
 	* @license  PHP License 7.4.0
 	* @link
 	*/

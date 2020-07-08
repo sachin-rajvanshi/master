@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Course;
 
+use App\Models\Stream;
 use App\Models\Course;
 use App\Models\CourseWise;
 use App\Models\CourseLevel;
@@ -24,8 +25,9 @@ class CourseController extends Controller
 	public function index() {
 		$data['course_wises']     = CourseWise::get();
 		$data['course_durations'] = CourseDuration::get();
-		$data['course_levels']    = CourseLevel::get();
-		$data['course_types']     = CourseType::get();
+		$data['course_levels']    = CourseLevel::where('status', 'Yes')->get();
+		$data['course_types']     = CourseType::where('status', 'Yes')->get();
+		$data['streams']          = Stream::where('status', 'Yes')->get();
 		$data['courses']          = Course::with(['getCourseWise','getCourseDuration', 'getCourseType', 'getCourseLevel'])->get();
 		return view('admin.manage_course', compact('data'));
 	}
@@ -48,6 +50,7 @@ class CourseController extends Controller
 				'course_duration' => 'required',
 				'course_type'     => 'required',
 				'course_level'    => 'required',
+				'stream'          => 'required',
 				'admission_fees'  => 'required|digits_between:1,15',
 				'course_fees'     => 'required|digits_between:1,15',
 				'exam_fees'       => 'required|digits_between:1,15',
@@ -68,6 +71,7 @@ class CourseController extends Controller
 				'course_duration_id' => $request->course_duration,
 				'course_type_id'     => $request->course_type,
 				'course_level_id'    => $request->course_level,
+				'stream_id'          => $request->stream,
 				'admission_fees'     => $request->admission_fees,
 				'course_fees'        => $request->course_fees,
 				'exam_fees'          => $request->exam_fees,
@@ -102,6 +106,7 @@ class CourseController extends Controller
 				'up_course_duration_id' => 'required',
 				'up_course_type_id'     => 'required',
 				'up_course_level_id'    => 'required',
+				'up_stream'             => 'required',
 				'up_admission_fees'     => 'required|digits_between:1,15',
 				'up_course_fees'        => 'required|digits_between:1,15',
 				'up_exam_fees'          => 'required|digits_between:1,15',
@@ -123,6 +128,7 @@ class CourseController extends Controller
 				'course_duration_id' => $request->up_course_duration_id,
 				'course_type_id'     => $request->up_course_type_id,
 				'course_level_id'    => $request->up_course_level_id,
+				'stream_id'          => $request->up_stream,
 				'admission_fees'     => $request->up_admission_fees,
 				'course_fees'        => $request->up_course_fees,
 				'exam_fees'          => $request->up_exam_fees,
@@ -137,6 +143,41 @@ class CourseController extends Controller
  			]
 		);
 		return redirect('admin/manage/course')->with('success', 'Course Updated Successfully.');
+	}
+
+	/**
+	* Change Status of Course 
+	*
+	* @category Couser  Management
+	* @package  Couser  Management
+	* @author   Sachiln Kumar Rajvanshi <sachin.rajvanshi@webmingo.in>
+	* @license  PHP License 7.4.0
+	* @link
+	*/
+	public function changeStatus(Request $request) {
+		$picked = Course::find($request->id);
+		$status = $picked->status == 'Yes' ? 'No' : 'Yes';
+		$picked->update(
+			[
+				'status' => $status
+			]
+		);
+		return $status;
+	}
+
+	/**
+	* Delete Course
+	*
+	* @category Couser  Management
+	* @package  Couser  Management
+	* @author   Sachiln Kumar Rajvanshi <sachin.rajvanshi@webmingo.in>
+	* @license  PHP License 7.4.0
+	* @link
+	*/
+	public function deleteCourse(Request $request) {
+		$picked = Course::find($request->id);
+		$picked->delete();
+		return 'Deleted Successfully.';
 	}
 
 }
