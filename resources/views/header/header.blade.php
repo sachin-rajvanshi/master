@@ -17,11 +17,7 @@
         <div class="top-bar">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-top">
-<<<<<<< Updated upstream
                     <a class="navbar-brand" href="{{ url('admin/dashboard') }}"><img src="{{ asset('') }}/images/logo.png" class="img-fluid"></a>
-=======
-                    <a class="navbar-brand" href="index.php"><img src="{{ asset('') }}/images/logo.png" class="img-fluid"></a>
->>>>>>> Stashed changes
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

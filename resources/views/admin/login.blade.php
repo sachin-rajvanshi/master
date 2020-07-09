@@ -5,15 +5,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<<<<<<< Updated upstream
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-4.css') }}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
-=======
-	<link rel="stylesheet" href="{{ asset('/css/bootstrap-4.css') }}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
-	<link rel="stylesheet" href="{{ asset('/css/style.css') }}">
->>>>>>> Stashed changes
 </head>
 
 <body>
@@ -28,11 +22,7 @@
 				    @endif
 				    <br>
 					<div class="logo mb-3">
-<<<<<<< Updated upstream
 						<img src="{{ asset('images/logo.png') }}" class="img-fluid">
-=======
-						<img src="{{ asset('/images/logo.png') }}" class="img-fluid">
->>>>>>> Stashed changes
 					</div>
 					<form method="post" action="{{ url('admin/login') }}">
 						@csrf
@@ -91,15 +81,9 @@
 			</div>
 		</div>
 	</div>
-<<<<<<< Updated upstream
 	<script src="{{ asset('js/jquery.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('js/poppers.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('js/bootstrap-4.js') }}" type="text/javascript"></script>
-=======
-	<script src="{{ asset('/js/jquery.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('/js/poppers.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('/js/bootstrap-4.js') }}" type="text/javascript"></script>
->>>>>>> Stashed changes
 	<script type="text/javascript">
         setTimeout(function(){ 
             document.getElementById("hideAlert").style.display  = "none";
