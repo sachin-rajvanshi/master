@@ -13,14 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+<<<<<<< Updated upstream
 Route::get('/', function () {
     return view('welcome');
 });
 // Auth::routes();
+=======
+Auth::routes();
+>>>>>>> Stashed changes
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('admin/login', 'Admin\AdminController@loginView')->name('admin.loginView');
+Route::get('/', 'Admin\AdminController@loginView')->name('admin.loginView');
 Route::post('admin/login', 'Admin\AdminController@login')->name('admin.login');
 
 Route::group(['middleware' => ['auth']], function () {
