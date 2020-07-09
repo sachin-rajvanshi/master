@@ -40,7 +40,7 @@
                                                 @if(\Auth::user()->profile_pic)
                                                     <img src="{{ \Auth::user()->profile_pic }}" id="image" class="img-fluid img-stud-pro">
                                                 @else
-                                                    <img src="{{ asset('public') }}/images/usr.png" id="image" class="img-fluid img-stud-pro">
+                                                    <img src="{{ asset('') }}/images/usr.png" id="image" class="img-fluid img-stud-pro">
                                                 @endif
                                             </div>
                                             <div class="col-sm-12">

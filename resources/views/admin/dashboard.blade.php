@@ -125,7 +125,7 @@
 
 		<div class="row">
 			<div class="col-md-3">
-				<img class="img-fluid" alt="user" src="{{ asset('public') }}/images/c2.jpg">
+				<img class="img-fluid" alt="user" src="{{ asset('') }}/images/c2.jpg">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Web Designing</h5>
@@ -144,7 +144,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<img class="img-fluid" alt="user" src="{{ asset('public') }}/images/c2.jpg">
+				<img class="img-fluid" alt="user" src="{{ asset('') }}/images/c2.jpg">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Ios Development</h5>
@@ -163,7 +163,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<img class="img-fluid" alt="user" src="{{ asset('public') }}/images/c2.jpg">
+				<img class="img-fluid" alt="user" src="{{ asset('') }}/images/c2.jpg">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Android Development</h5>
@@ -182,7 +182,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<img class="img-fluid" alt="user" src="{{ asset('public') }}/images/c2.jpg">
+				<img class="img-fluid" alt="user" src="{{ asset('') }}/images/c2.jpg">
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title">Web Development</h5>

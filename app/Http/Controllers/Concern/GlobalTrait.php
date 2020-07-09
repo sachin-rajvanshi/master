@@ -29,7 +29,7 @@ Trait GlobalTrait
             $return        = $data->file('file')->move(
             base_path() . '/public/uploaded_doc/', $imageName
             );
-            $image_path =asset('/public/uploaded_doc/'. $imageName);
+            $image_path =asset('uploaded_doc/'. $imageName);
         } else {
             $image_path = $old_file;
         }

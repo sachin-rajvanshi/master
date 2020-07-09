@@ -78,6 +78,11 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('admin/update/stream', 'Stream\StreamController@updateStream')->name('admin.updateStream');
 	Route::post('admin/change-status/stream', 'Stream\StreamController@changeStatus')->name('admin.changeStatus.stream');
 	Route::post('admin/delete/stream', 'Stream\StreamController@deleteStream')->name('admin.deleteStream');
+
+	// Branch Management
+	Route::get('admin/manage/branch', 'Branch\BranchController@index')->name('admin.manageBranch');
+	Route::get('admin/add/branch', 'Branch\BranchController@addBranchView')->name('admin.addBranchView');
+	Route::post('admin/create/branch', 'Branch\BranchController@createBranch')->name('admin.createBranch');
 });
 
 Route::get('logout', 'HomeController@logout')->name('logout');

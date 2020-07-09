@@ -11,12 +11,12 @@
             </div>
         </div>
     </footer>
-    <script src="{{ asset('public') }}/js/jquery.js" type="text/javascript"></script>
-    <script src="{{ asset('public') }}/js/poppers.js" type="text/javascript"></script>
-    <script src="{{ asset('public') }}/js/bootstrap-4.js" type="text/javascript"></script>
+    <script src="{{ asset('') }}/js/jquery.js" type="text/javascript"></script>
+    <script src="{{ asset('') }}/js/poppers.js" type="text/javascript"></script>
+    <script src="{{ asset('') }}/js/bootstrap-4.js" type="text/javascript"></script>
     <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" type="text/javascript"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="{{ asset('public') }}/js/custom.js" type="text/javascript"></script>
+    <script src="{{ asset('') }}/js/custom.js" type="text/javascript"></script>
     <script type="text/javascript">
         setTimeout(function(){ 
             document.getElementById("hideAlert").style.display  = "none";

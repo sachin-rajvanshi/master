@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <link rel="stylesheet" href="{{ asset('public/css/bootstrap-4.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-4.css') }}"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">  
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> 
-    <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <body>
@@ -17,7 +17,7 @@
         <div class="top-bar">
             <div class="container">
                 <nav class="navbar navbar-expand-lg navbar-top">
-                    <a class="navbar-brand" href="{{ url('admin/dashboard') }}"><img src="{{ asset('public') }}/images/logo.png" class="img-fluid"></a>
+                    <a class="navbar-brand" href="{{ url('admin/dashboard') }}"><img src="{{ asset('') }}/images/logo.png" class="img-fluid"></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -30,7 +30,7 @@
                                         @if(\Auth::user()->profile_pic)
                                             <img src="{{ \Auth::user()->profile_pic }}" class="img-fliud">
                                         @else
-                                            <img src="{{ asset('public') }}/images/usr.png" class="img-fliud">
+                                            <img src="{{ asset('') }}/images/usr.png" class="img-fliud">
                                         @endif
                                     </span> Admin
                                 </a>
@@ -76,7 +76,7 @@
                                    <i class="fas fa-university"></i> Branches
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="manage-branch.php">Manage Branches</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/branch') }}">Manage Branches</a>
                                     <a class="dropdown-item" href="manage-branch.php">Branch Permission</a>
 								</div>
                             </li>
