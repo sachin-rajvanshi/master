@@ -34,6 +34,6 @@ class HomeController extends Controller
     public function logout(Request $request) {
         \Auth::logout();
         \Session::flush();
-        return redirect('admin/login');
+        return redirect('/');
     }
 }

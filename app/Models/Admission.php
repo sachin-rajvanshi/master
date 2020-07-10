@@ -66,7 +66,64 @@ class Admission extends Model
     	'aadhar_card',
     	'signature',
     	'course_completion_id',
+    	'admission_mark_as',
+    	'admission_created_by',
     	'accept_terms',
     	'status'
     ];
+
+    // get category
+    public function getCategory() {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    // get Id Types
+    public function getTdType() {
+        return $this->belongsTo(IdType::class, 'id_type', 'id');
+    }
+
+    // get States
+    public function getState() {
+        return $this->belongsTo(State::class, 'state_id', 'id');
+    }
+
+    // get States
+    public function getCity() {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    // get Course
+    public function getCourse() {
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
+    // get Course
+    public function getCollege() {
+        return $this->belongsTo(User::class, 'branch_id', 'id');
+    }
+
+    // get Study Mode
+    public function getStudyMode() {
+        return $this->belongsTo(CourseWise::class, 'study_mode_id', 'id');
+    }
+
+    // get Mode of entry
+    public function getModeOfEntry() {
+        return $this->belongsTo(ModeOfEntry::class, 'mode_of_entry_id', 'id');
+    }
+
+    // get University
+    public function getUniversity() {
+        return $this->belongsTo(University::class, 'university_id', 'id');
+    }
+
+    // get University
+    public function getSession() {
+        return $this->belongsTo(Session::class, 'session_id', 'id');
+    }
+
+    // get Study Mode
+    public function getStudyOfMode() {
+        return $this->belongsTo(ModeOfStudy::class, 'mode_of_study_id', 'id');
+    }
 }

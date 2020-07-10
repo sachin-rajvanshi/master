@@ -110,8 +110,13 @@ class CreateAdmissionsTable extends Migration
             $table->foreign('course_completion_id')
                 ->references('id')->on('course_completions')
                 ->onDelete('cascade');
+            $table->enum('admission_mark_as', ['online', 'offline']);
+            $table->bigInteger('admission_created_by')->unsigned()->nullable();
+            $table->foreign('admission_created_by')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->enum('accept_terms', ['Yes', 'No'])->default('No');
-            $table->enum('status', ['Yes', 'No'])->default('Yes');
+            $table->enum('status', ['New', 'Pending', 'Accepted', 'Rejected'])->default('New');
             $table->timestamps();
         });
     }
