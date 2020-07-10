@@ -83,6 +83,17 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('admin/manage/branch', 'Branch\BranchController@index')->name('admin.manageBranch');
 	Route::get('admin/add/branch', 'Branch\BranchController@addBranchView')->name('admin.addBranchView');
 	Route::post('admin/create/branch', 'Branch\BranchController@createBranch')->name('admin.createBranch');
+	Route::get('admin/edit/branch/{id}', 'Branch\BranchController@editView')->name('admin.editView.branch');
+	Route::post('admin/update/branch', 'Branch\BranchController@updateBranch')->name('admin.updateBranch');
+	Route::post('admin/change-status/branch', 'Branch\BranchController@changeStatus')->name('admin.changeStatus.branch');
+	Route::post('admin/delete/branch', 'Branch\BranchController@deleteBranch')->name('admin.deleteBranch.branch');
+	Route::post('admin/update/password/branch', 'Branch\BranchController@updatePassword')->name('admin.updatePassword.branch');
+
+	Route::get('admin/manage/branch-permission', 'BranchPermission\BranchPermissionController@index')->name('admin.manageBranchPermission');
 });
 
 Route::get('logout', 'HomeController@logout')->name('logout');
+
+Route::get('admission/form', 'Admission\AdmissionController@index')->name('admission.form');
+Route::post('admission/create', 'Admission\AdmissionController@createAdmission')->name('admission.createAdmission');
+

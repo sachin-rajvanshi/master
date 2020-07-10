@@ -23,6 +23,14 @@ class User extends Authenticatable
         'profile_pic',
         'company_name',
         'password',
+        'branch_address',
+        'state_id',
+        'city_id',
+        'college_parent_id',
+        'contact_person_name',
+        'contact_person_mobile',
+        'branch_code',
+        'status'
     ];
 
     /**
@@ -42,4 +50,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // get States
+    public function getState() {
+        return $this->belongsTo(State::class, 'state_id', 'id');
+    }
+
+    // get States
+    public function getCity() {
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
 }

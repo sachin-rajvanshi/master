@@ -73,11 +73,11 @@
                             </li>
 							<li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   <i class="fas fa-university"></i> Branches
+                                   <i class="fas fa-university"></i> Colleges
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ url('admin/manage/branch') }}">Manage Branches</a>
-                                    <a class="dropdown-item" href="manage-branch.php">Branch Permission</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/branch') }}">Manage Colleges</a>
+                                    <a class="dropdown-item" href="{{ url('admin/manage/branch-permission') }}">College Permission</a>
 								</div>
                             </li>
 							<li class="nav-item dropdown">
