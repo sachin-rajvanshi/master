@@ -69,8 +69,24 @@
                       <td>{{ $data->getUniversity['name'] }}</td>
                       <td>{{ $data->getState['name'] }} / {{ $data->getCity['name'] }}</td>
                       <td><i class="fas fa-rupee-sign"></i> {{ $data->admission_fees }}</td>
-                      <td><i class="fas fa-rupee-sign"></i> {{ $data->paidsum }}</td>
-                      <td><i class="fas fa-rupee-sign"></i> 160</td>
+                      <td><i class="fas fa-rupee-sign"></i> 
+                        @php
+                          $amount = 0;
+                          $balance;
+                        @endphp
+                        @foreach($data->getFees as $paid_fees)
+                          @php
+                            $amount = $amount + $paid_fees->paid_amount;
+                          @endphp
+                        @endforeach
+                        {{ $amount }}
+                      </td>
+                      <td><i class="fas fa-rupee-sign"></i> 
+                        @php
+                          $balance = $data->admission_fees - $amount;
+                        @endphp
+                        {{ $balance }}
+                      </td>
                       <td>
                         @if($data->admission_created_by)
                           Admin

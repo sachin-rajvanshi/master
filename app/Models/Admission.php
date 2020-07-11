@@ -129,7 +129,7 @@ class Admission extends Model
 
     // get Fees
     public function getFees() {
-        return $this->hasMany(FeeHistory::class, 'id', 'admission_id');
+        return $this->hasMany(FeeHistory::class, 'admission_id', 'id');
     }
 
      // get Fees
