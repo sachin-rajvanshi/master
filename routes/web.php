@@ -92,8 +92,17 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Management Admissions
 	Route::get('admin/manage/admissions', 'Admin\ManageAdmissionController@index')->name('admin.manageAdmission');
-	Route::get('admin/view/student-profile', 'Admin\ManageAdmissionController@studentProfile')->name('admin.studentProfile');
-	Route::get('admin/view/student-profile', 'Admin\ManageAdmissionController@studentProfile')->name('admin.studentProfile');
+	Route::get('admin/view/student-profile/{id}', 'Admin\ManageAdmissionController@studentProfile')->name('admin.studentProfile');
+	Route::get('admin/edit/student-profile/{id}', 'Admin\ManageAdmissionController@editStudentProfile')->name('admin.editStudentProfile');
+	Route::post('admin/update/student-profile', 'Admin\ManageAdmissionController@updateStudentProfile')->name('admin.updateStudentProfile');
+	Route::get('admin/student/payment-history/{id}', 'Admin\ManageAdmissionController@paymentHistory')->name('admin.paymentHistory');
+	Route::post('admin/student/payment/approved', 'Admin\ManageAdmissionController@paymentApproved')->name('admin.paymentApproved');
+	Route::post('admin/student/payment-history/delete', 'Admin\ManageAdmissionController@deletePayment')->name('admin.deletePayment');
+	Route::post('admin/admission/delete', 'Admin\ManageAdmissionController@deleteAdmission')->name('admin.deleteAdmission');
+
+
+	Route::get('admin/admission/form', 'Admin\ManageAdmissionController@offlineAdmission')->name('admin.offlineAdmission');
+	Route::post('admin/admission/create', 'Admin\ManageAdmissionController@createAdmission')->name('admin.createAdmission');
 });
 
 Route::get('logout', 'HomeController@logout')->name('logout');
@@ -104,6 +113,7 @@ Route::get('admission/preview/{id}', 'Admission\AdmissionController@admissionPre
 Route::get('admission/edit/{id}', 'Admission\AdmissionController@editView')->name('admission.editView');
 Route::post('admission/update', 'Admission\AdmissionController@updateAdmission')->name('admission.updateAdmission');
 Route::post('admission/make/payment', 'Admission\AdmissionController@makePayment')->name('admission.makePayment');
+Route::get('admission/thank-you', 'Admission\AdmissionController@thankYou')->name('admission.thankYou');
 
 Route::post('course/total/fees', 'Admission\AdmissionController@getTotalFees')->name('admission.getTotalFees');
 

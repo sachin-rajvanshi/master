@@ -1,4 +1,4 @@
-@extends('header.header')
+@extends('header.admission_header')
 @section('content')
 <section class="content-main-body">
 	<div class="container">
@@ -11,7 +11,7 @@
 								<i class="fas fa-check"></i>
 								<h3>Thank You</h3>
 								<p>Your submission has been received. We will be in touch and contact you soon!</p>
-								<a href="#"><i class="fas fa-chevron-circle-right"></i> Back to Home</a>
+								<a href="{{ url('admission/form') }}"><i class="fas fa-chevron-circle-right"></i> Back to Home</a>
 							</div>
 						</div>
 					</div>

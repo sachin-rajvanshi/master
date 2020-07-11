@@ -85,7 +85,7 @@
                                    <i class="fas fa-pencil-alt"></i> Admissions
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="offline-admission.php">Offline Admission</a>
+                                    <a class="dropdown-item" href="{{ url('admin/admission/form') }}">Offline Admission</a>
                                     <a class="dropdown-item" href="{{ url('admin/manage/admissions') }}">Manage Admission</a>
 								</div>
                             </li>

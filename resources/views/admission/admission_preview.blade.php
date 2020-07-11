@@ -395,11 +395,20 @@
 				<div class="form-group row">
 					<div class="col-sm-6">
 						<label class="label-control">Payable Fee</label>
-						<input type="text" class="text-control" name="total_fees" id="total_fees" value="{{ $data->getCourse['total_deposite_fees'] }}" disabled>
+						<input type="text" class="text-control" name="total_fees" id="total_fees" value="{{ $data->getCourse['total_deposite_fees'] }}" readonly="">
 					</div>
 					<div class="col-sm-6">
 						<label class="label-control">Amount to Pay</label>
-						<input type="text" class="text-control" name="paid_amount" id="paid_amount" placeholder="Enter Amount to Pay">
+						<input type="hidden" name="admission_id" value="{{ $data->id }}">
+						<input type="text" class="text-control" name="paid_amount" id="paid_amount" placeholder="Enter Amount to Pay" value="{{ old('paid_amount') }}">
+						@if($errors->has('paid_amount'))
+							<span style="color: red;">{{ $errors->first('paid_amount') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
@@ -409,86 +418,233 @@
 						<select class="text-control" name="paymentmode_admission" id="paymentmode_admission">
 							<option value="">Select Mode</option>
 							@foreach($payment_modes as $mode)
-								<option value="{{ $mode->id }}">{{ $mode->name }}</option>
+								@if(old('paymentmode_admission') == $mode->id)
+									<option value="{{ $mode->id }}" selected="">{{ $mode->name }}</option>
+								@else
+									<option value="{{ $mode->id }}">{{ $mode->name }}</option>
+								@endif
 							@endforeach
 						</select>
+						@if($errors->has('paymentmode_admission'))
+							<span style="color: red;">{{ $errors->first('paymentmode_admission') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 					
 					<div class="col-sm-6">
 						<label class="label-control">Payment Date</label>
-						<input type="date" class="text-control" name="payment_date" id="payment_date">
+						<input type="date" class="text-control" name="payment_date" id="payment_date" value="{{ old('payment_date') }}">
+						@if($errors->has('payment_date'))
+							<span style="color: red;">{{ $errors->first('payment_date') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row cash_div" style="display: none;">
 					<div class="col-sm-6">
 						<label class="label-control">Cash Collected By</label>
-						<input type="text" class="text-control" placeholder="Collected Person Name" name="cash_collected_by" id="cash_collected_by">
+						<input type="text" class="text-control" placeholder="Collected Person Name" name="cash_collected_by" id="cash_collected_by" value="{{ old('cash_collected_by') }}">
+						@if($errors->has('cash_collected_by'))
+							<span style="color: red;">{{ $errors->first('cash_collected_by') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row chq_div" style="display: none;">
 					<div class="col-sm-6">
 						<label class="label-control">Cheque No.</label>
-						<input type="text" class="text-control" placeholder="Enter Cheque No." name="cheque_number" id="cheque_number">
+						<input type="text" class="text-control" placeholder="Enter Cheque No." name="cheque_number" id="cheque_number" value="{{ old('cheque_number') }}">
+						@if($errors->has('cheque_number'))
+							<span style="color: red;">{{ $errors->first('cheque_number') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 					<div class="col-sm-6">
 						<label class="label-control">Cheque Date</label>
-						<input type="date" class="text-control" name="cheque_date" id="cheque_date">
+						<input type="date" class="text-control" name="cheque_date" id="cheque_date" value="{{ old('cheque_date') }}">
+						@if($errors->has('cheque_date'))
+							<span style="color: red;">{{ $errors->first('cheque_date') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row chq_div" style="display: none;">
 					<div class="col-sm-6">
 						<label class="label-control">Bank Name</label>
-						<input type="text" class="text-control" placeholder="Enter Bank Name" name="bank_name" id="bank_name">
+						<input type="text" class="text-control" placeholder="Enter Bank Name" name="bank_name" id="bank_name" value="{{ old('bank_name') }}">
+						@if($errors->has('bank_name'))
+							<span style="color: red;">{{ $errors->first('bank_name') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 					<div class="col-sm-6">
 						<label class="label-control">Bank Branch</label>
-						<input type="text" class="text-control" placeholder="Enter Bank Branch" name="bank_branch" id="bank_branch">
+						<input type="text" class="text-control" placeholder="Enter Bank Branch" name="bank_branch" id="bank_branch" value="{{ old('bank_branch') }}">
+						@if($errors->has('bank_branch'))
+							<span style="color: red;">{{ $errors->first('bank_branch') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row net_div" style="display: none;">
 					<div class="col-sm-6">
 						<label class="label-control">UTR No.</label>
-						<input type="text" class="text-control" placeholder="Enter UTR No." name="utr_number" id="utr_number">
+						<input type="text" class="text-control" placeholder="Enter UTR No." name="utr_number" id="utr_number" value="{{ old('utr_number') }}">
+						@if($errors->has('utr_number'))
+							<span style="color: red;">{{ $errors->first('utr_number') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 					<div class="col-sm-6">
 						<label class="label-control">Payment Screenshot</label>
 						<input type="file" class="text-control" name="payment_screenshot_utr" id="payment_screenshot_utr">
+						@if($errors->has('payment_screenshot_utr'))
+							<span style="color: red;">{{ $errors->first('payment_screenshot_utr') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row upi_div" style="display: none;">
 					<div class="col-sm-6">
 						<label class="label-control">Ref Id</label>
-						<input type="text" class="text-control" placeholder="Enter Ref Id" name="ref_id" id="ref_id">
+						<input type="text" class="text-control" placeholder="Enter Ref Id" name="ref_id" id="ref_id" value="{{ old('ref_id') }}">
+						@if($errors->has('ref_id'))
+							<span style="color: red;">{{ $errors->first('ref_id') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 					<div class="col-sm-6">
 						<label class="label-control">Payment Screenshot</label>
-						<input type="file" class="text-control" name="ref_screenschot" id="ref_screenschot">
+						<input type="file" class="text-control" name="ref_screenschot" id="ref_screenschot" value="{{ old('ref_screenschot') }}">
+						@if($errors->has('ref_screenschot'))
+							<span style="color: red;">{{ $errors->first('ref_screenschot') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row paytm_div" style="display: none;">
 					<div class="col-sm-6">
 						<label class="label-control">Order Id</label>
-						<input type="text" class="text-control" placeholder="Enter Order Id" name="order_id" id="order_id">
+						<input type="text" class="text-control" placeholder="Enter Order Id" name="order_id" id="order_id" value="{{ old('order_id') }}">
+						@if($errors->has('order_id'))
+							<span style="color: red;">{{ $errors->first('order_id') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 					<div class="col-sm-6">
 						<label class="label-control">Payment Screenshot</label>
-						<input type="file" class="text-control" name="order_screenshot" id="order_screenshot">
+						<input type="file" class="text-control" name="order_screenshot" id="order_screenshot" value="{{ old('order_screenshot') }}">
+						@if($errors->has('order_screenshot'))
+							<span style="color: red;">{{ $errors->first('order_screenshot') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
 				
 				<div class="form-group row">
 					<div class="col-sm-12">
 						<label class="label-control">Remark</label>
-						<input type="text" class="text-control" placeholder="Enter Remark" name="remark" id="remark">
+						<input type="text" class="text-control" placeholder="Enter Remark" name="remark" id="remark" value="{{ old('remark') }}">
+						@if($errors->has('remark'))
+							<span style="color: red;">{{ $errors->first('remark') }}</span>
+							<script type="text/javascript">
+								setTimeout(function() {
+									$('#payment-now').modal('show');
+								}, 1000);
+							</script>
+						@endif
 					</div>
 				</div>
-				
+				@if(old('paymentmode_admission') == 1)
+					<script type="text/javascript"> 
+						setTimeout(function() {
+							$(".cash_div").show();
+						}, 1000);
+					</script>
+				@elseif(old('paymentmode_admission') == 2)
+					<script type="text/javascript">
+						setTimeout(function() {
+							$(".chq_div").show();
+						}, 1000); 
+					</script>
+				@elseif(old('paymentmode_admission') == 3)
+					<script type="text/javascript">
+						setTimeout(function() {
+							$(".net_div").show();
+						}, 1000); 
+					</script> 
+				@elseif(old('paymentmode_admission') == 4)
+					<script type="text/javascript"> 
+						setTimeout(function() {
+							$(".upi_div").show();
+						}, 1000);
+					</script>
+				@elseif(old('paymentmode_admission') == 5)
+					<script type="text/javascript">
+						setTimeout(function() {
+							$(".paytm_div").show();
+						}, 1000);
+						
+					</script>
+				@endif
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
 						<button class="btn btn-dark" type="submit">Pay Now</button>

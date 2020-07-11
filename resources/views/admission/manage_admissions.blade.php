@@ -16,6 +16,12 @@
     </div>
   </div>
 </section>
+@if(session()->has('success'))
+    <div class="alert alert-success" id="hideAlert">
+        {{ session()->get('success') }}
+    </div>
+@endif
+<br>
 <section class="content-main-body">
   <div class="container">
     <div class="row">
@@ -45,29 +51,45 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>01.10.2020 12:00PM</td>
-                      <td>23829483</td>
-                      <td>Branch</td>
-                      <td>Arbaaz</td>
-                      <td>8787878787</td>
-                      <td>Computer Science</td>
-                      <td>Nice School</td>
-                      <td>U.P / Mumbai</td>
-                      <td><i class="fas fa-rupee-sign"></i> 1200</td>
-                      <td><i class="fas fa-rupee-sign"></i> 120</td>
+                    @foreach($datas as $data)
+                      <td>
+                        @php
+                          $dt = new DateTime($data->created_at);
+                          $tz = new DateTimeZone('Asia/Kolkata');
+                          $dt->setTimezone($tz);
+                          $dateTime = $dt->format('d.m.Y h:i A');
+                        @endphp
+                        {{ $dateTime }}
+                      </td>
+                      <td>{{ $data->college_enrollment_number }}</td>
+                      <td>{{ $data->getCollege['name'] }}</td>
+                      <td>{{ $data->first_name }} {{ $data->middle_name }} {{ $data->last_name }}</td>
+                      <td>{{ $data->mobile_number }}</td>
+                      <td>{{ $data->getCourse['course_name'] }}</td>
+                      <td>{{ $data->getUniversity['name'] }}</td>
+                      <td>{{ $data->getState['name'] }} / {{ $data->getCity['name'] }}</td>
+                      <td><i class="fas fa-rupee-sign"></i> {{ $data->admission_fees }}</td>
+                      <td><i class="fas fa-rupee-sign"></i> {{ $data->paidsum }}</td>
                       <td><i class="fas fa-rupee-sign"></i> 160</td>
-                      <td>Admin</td>
-                      <td>Active</td>
+                      <td>
+                        @if($data->admission_created_by)
+                          Admin
+                        @else
+                          Online
+                        @endif
+                      </td>
+                      <td>{{ $data->status }}</td>
                       <td>
 						            <ul class="action">
-                          	<li><a href="{{ url('admin/view/student-profile') }}" title="View Student"><i class="fas fa-eye"></i></a></li>
-                          	<li><a href="edit-student.php" title="Edit Student"><i class="fas fa-pencil-alt"></i></a></li>
-                          	<li><a href="student-payment-history.php" title="Payment History"><i class="fas fa-rupee-sign"></i></a></li>
+                          	<li><a href="{{ url('admin/view/student-profile') }}/{{ $data->id }}" title="View Student"><i class="fas fa-eye"></i></a></li>
+                          	<li><a href="{{ url('admin/edit/student-profile') }}/{{ $data->id }}" title="Edit Student"><i class="fas fa-pencil-alt"></i></a></li>
+                          	<li><a href="{{ url('admin/student/payment-history') }}/{{ $data->id }}" title="Payment History"><i class="fas fa-rupee-sign"></i></a></li>
                           	<li><a href="#" title="Change Status"><i class="fas fa-exchange-alt"></i></a></li>
-                          	<li><a href="#" title="Delete Student"><i class="fas fa-trash"></i></a></li>
+                          	<li><a title="Delete Student" onclick="deleteAdmission('{{ $data->id }}')"><i class="fas fa-trash"></i></a></li>
                           </ul>
 					            </td>
                     </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -78,4 +100,38 @@
     </div>
   </div>
 </section>
+<script type="text/javascript">
+  function deleteAdmission(id) {
+          swal({
+              title: "Are you sure?",
+              text: "Delete this admission.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+              document.getElementById('loader').style.display ="block";
+              if (willDelete) {
+                  $.ajax({
+                      method:'post',
+                      url   : "{{ url('admin/admission/delete') }}",
+                      data  : {
+                          "_token": "{{ csrf_token() }}",
+                          'id'    : id
+                      },
+                      success: function(data){
+                          document.getElementById('loader').style.display ="none";
+                          swal("", data, "success");
+                          setTimeout( function () {
+                            location.reload();
+                          }, 2000);
+
+                      }
+                  });
+              }else {
+                  document.getElementById('loader').style.display ="none";
+              }
+          });
+    }
+</script>
 @endsection

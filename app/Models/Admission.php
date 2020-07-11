@@ -126,4 +126,14 @@ class Admission extends Model
     public function getStudyOfMode() {
         return $this->belongsTo(ModeOfStudy::class, 'mode_of_study_id', 'id');
     }
+
+    // get Fees
+    public function getFees() {
+        return $this->hasMany(FeeHistory::class, 'id', 'admission_id');
+    }
+
+     // get Fees
+    public function admissionCreatedBy() {
+        return $this->belongsTo(User::class, 'admission_created_by', 'id');
+    }
 }

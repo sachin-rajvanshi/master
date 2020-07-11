@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('') }}/css/style.css">
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <title>Hello, world!</title>
   </head>

@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Session;
 use App\Models\Category;
 use App\Models\Admission;
+use App\Models\FeeHistory;
 use App\Models\CourseWise;
 use App\Models\University;
 use App\Models\ModeOfEntry;
@@ -22,7 +23,7 @@ use App\Http\Controllers\Concern\GlobalTrait;
 
 class AdmissionController extends Controller
 {
-	use GlobalTrait;
+	use GlobalTrait; 
 	/**
 	* Admission Form
 	*
@@ -437,6 +438,127 @@ class AdmissionController extends Controller
     }
 
     public function makePayment(Request $request) {
-    	dd($request->all());
+    	$request->validate(
+    		[
+    			'paid_amount'            => 'required|integer',
+    			'payment_screenshot_utr' => 'nullable|mimes:jpeg,jpg,png,pdf|max:2048',
+    			'ref_screenschot'        => 'nullable|mimes:jpeg,jpg,png,pdf|max:2048',
+    			'order_screenshot'       => 'nullable|mimes:jpeg,jpg,png,pdf|max:2048',
+    			'paymentmode_admission'  => 'required',
+    			'payment_date'           => 'required|date_format:Y-m-d',
+    			'cash_collected_by'      => 'nullable|max:150',
+    			'cheque_number'          => 'nullable|max:150',
+    			'cheque_date'            => 'nullable|date_format:Y-m-d',
+    			'bank_name'              => 'nullable|max:150',
+    			'bank_branch'            => 'nullable|max:150',
+    			'utr_number'             => 'nullable|max:200',
+    			'order_id'               => 'nullable|max:200',
+    			'remark'                 => 'nullable|max:200'
+    		]
+    	);
+
+    	$admission_id = $request->admission_id;
+		$total_fees   = $request->total_fees;
+		$paid_amount  = $request->paid_amount;
+		$payment_date = $request->payment_date;
+		$due_amount   = $total_fees - $paid_amount;
+
+    	if($request->paymentmode_admission == 1) {
+    		$cash_collected_by = $request->cash_collected_by;
+    		FeeHistory::create(
+    			[
+    				'admission_id'      => $admission_id,
+    				'payment_mode_id'   => $request->paymentmode_admission,
+    				'payable_amount'    => $total_fees,
+    				'paid_amount'       => $paid_amount,
+    				'payment_date'      => $payment_date,
+    				'cash_collected_by' => $cash_collected_by,
+    				'due_amount'        => $due_amount,
+    				'payment_remark'    => $request->remark,
+    				'payment_status'    => 'Paid'
+    			]
+    		);
+    	}
+    	if($request->paymentmode_admission == 2) {
+    		$cheque_number = $request->cheque_number;
+    		$cheque_date   = $request->cheque_date;
+    		$bank_name     = $request->bank_name;
+    		$bank_branch   = $request->bank_branch;
+    		FeeHistory::create(
+    			[
+    				'admission_id'      => $admission_id,
+    				'payment_mode_id'   => $request->paymentmode_admission,
+    				'payable_amount'    => $total_fees,
+    				'paid_amount'       => $paid_amount,
+    				'payment_date'      => $payment_date,
+    				'cheque_number'     => $cheque_number,
+    				'cheque_date'       => $cheque_date,
+    				'bank_name'         => $bank_name,
+    				'bank_branch'       => $bank_branch,
+    				'due_amount'        => $due_amount,
+    				'payment_remark'    => $request->remark,
+    				'payment_status'    => 'Paid'
+    			]
+    		);
+    	}
+    	if($request->paymentmode_admission == 3) {
+    		$utr_number      = $request->utr_number;
+    		$file_url = $this->userDocumentUpload($request, 'payment_screenshot_utr');
+    		FeeHistory::create(
+    			[
+    				'admission_id'      => $admission_id,
+    				'payment_mode_id'   => $request->paymentmode_admission,
+    				'payable_amount'    => $total_fees,
+    				'paid_amount'       => $paid_amount,
+    				'payment_date'      => $payment_date,
+    				'reference_id'      => $utr_number,
+    				'payment_screenshot'=> $file_url, 
+    				'due_amount'        => $due_amount,
+    				'payment_remark'    => $request->remark,
+    				'payment_status'    => 'Paid'
+    			]
+    		);
+    	}
+    	if($request->paymentmode_admission == 4) {
+    		$ref_id     = $request->ref_id;
+    		$file_url   = $this->userDocumentUpload($request, 'ref_screenschot');
+    		FeeHistory::create(
+    			[
+    				'admission_id'      => $admission_id,
+    				'payment_mode_id'   => $request->paymentmode_admission,
+    				'payable_amount'    => $total_fees,
+    				'paid_amount'       => $paid_amount,
+    				'payment_date'      => $payment_date,
+    				'reference_id'      => $ref_id,
+    				'payment_screenshot'=> $file_url, 
+    				'due_amount'        => $due_amount,
+    				'payment_remark'    => $request->remark,
+    				'payment_status'    => 'Paid'
+    			]
+    		);
+    	}
+    	if($request->paymentmode_admission == 5) {
+    		$order_id   = $request->order_id;
+    		$file_url   = $this->userDocumentUpload($request, 'order_screenshot');
+    		FeeHistory::create(
+    			[
+    				'admission_id'      => $admission_id,
+    				'payment_mode_id'   => $request->paymentmode_admission,
+    				'payable_amount'    => $total_fees,
+    				'paid_amount'       => $paid_amount,
+    				'payment_date'      => $payment_date,
+    				'reference_id'      => $order_id,
+    				'payment_screenshot'=> $file_url, 
+    				'due_amount'        => $due_amount,
+    				'payment_remark'    => $request->remark,
+    				'payment_status'    => 'Paid'
+    			]
+    		);
+    	}
+    	return redirect('admission/thank-you');
+    }
+
+    public function thankYou() {
+    	return view('admission.thank_you_admission');
     }
 }

@@ -29,6 +29,7 @@ class CreateFeeHistoriesTable extends Migration
                 ->onDelete('cascade');
             $table->string('payable_amount');
             $table->string('paid_amount');
+            $table->date('payment_date');
             $table->string('cash_collected_by')->nullable();
             $table->string('cheque_number')->nullable();
             $table->date('cheque_date')->nullable();
@@ -39,6 +40,8 @@ class CreateFeeHistoriesTable extends Migration
             $table->longText('payment_screenshot')->nullable();
             $table->string('payment_remark');
             $table->enum('payment_status', ['Paid', 'Unpaid'])->nullable();
+            $table->enum('action_by_admin', ['Pending', 'Approved'])->default('Pending');
+            $table->enum('admission_approved', ['No', 'Yes'])->default('No');
             $table->timestamps();
         });
     }

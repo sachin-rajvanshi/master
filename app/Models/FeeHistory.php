@@ -12,6 +12,7 @@ class FeeHistory extends Model
     	'payment_mode_id',
     	'payable_amount',
     	'paid_amount',
+        'payment_date',
     	'cash_collected_by',
     	'cheque_number',
     	'cheque_date',
@@ -21,6 +22,14 @@ class FeeHistory extends Model
     	'reference_id',
     	'payment_remark',
     	'payment_status',
-    	'payment_screenshot'
+    	'payment_screenshot',
+        'action_by_admin',
+        'admission_approved'
     ];
+
+    // get payment mode
+
+    public function getPaymentMode() {
+        return $this->belongsTo(PaymentMode::class, 'payment_mode_id', 'id');
+    }
 }
